@@ -23,10 +23,12 @@ lesson date: 9/3/2019
 ---
 
 **example 1:**
+> http://localhost:3000/exam/CS1231
 
 ![Screen Shot 2019-03-09 at 9 23 21 PM](https://user-images.githubusercontent.com/22993048/54072250-4d999200-42b3-11e9-9ef7-9ebbc24f83cd.png)
 
 **example 2:**
+> http://localhost:3000/exam/ACC1006
 
 ![Screen Shot 2019-03-09 at 9 25 52 PM](https://user-images.githubusercontent.com/22993048/54072251-4d999200-42b3-11e9-87a0-d520d58151a9.png)
 
