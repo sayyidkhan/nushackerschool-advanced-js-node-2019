@@ -20,6 +20,8 @@ lesson date: 9/3/2019
 > http://localhost:3000/exam/nusmods
 > replace 'nusmods' with the respective modules such as CS1231 or ACC1006
 
+---
+
 **example 1:**
 
 ![Screen Shot 2019-03-09 at 9 23 21 PM](https://user-images.githubusercontent.com/22993048/54072250-4d999200-42b3-11e9-9ef7-9ebbc24f83cd.png)
