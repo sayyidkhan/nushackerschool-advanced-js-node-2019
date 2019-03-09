@@ -1,0 +1,239 @@
+\documentclass{beamer}
+\usetheme{metropolis}
+
+\usepackage[greek,english]{babel}
+
+\usepackage{listings}
+\usepackage{qrcode}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+}
+
+\usepackage{minted}
+\setminted{
+    breaklines,
+    escapeinside=||,
+    mathescape,
+    autogobble,
+    linenos,
+    numbersep=5pt
+}
+
+\title{Advanced JavaScript and Node.js}
+\author{Tan E-Liang}
+\institute{Hackerschool}
+\date{Mar 9, 2019}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}[fragile]
+    Last week: JavaScript basics
+
+    Today
+    \begin{enumerate}
+        \item ``Advanced'' JavaScript
+        \item Make a simple web server in Node
+    \end{enumerate}
+
+    Next Week: Build a single-page web app in React
+\end{frame}
+
+\begin{frame}[fragile]{Set Up}
+    \begin{enumerate}
+        \item
+            \href{https://nodejs.org/en/download/}{Node.js} version $\geq8$. A Node feature support matrix can be found at \href{https://node.green/}{node.green}.
+            \begin{minted}{bash}
+                brew install node # macOS
+                sudo pacman install nodejs # Arch Linux
+            \end{minted}
+        \item These slides and starter code from \href{https://github.com/taneliang/hackerschool-advanced-js-node}{this GitHub repo}. Click the green ``Clone or download'' button.
+        \item Some text editor
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Recap---JavaScript Fundamentals}
+    \begin{minted}{javascript}
+        var neverUseVar = 12345678;
+        let mutable = [1, "two", "3"];
+        const immutable = "stone";
+
+        function myFunction(arg1, arg2) {
+            console.log(arg1, arg2);
+        }
+        setInterval(callbackFunction, 300);
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Today}
+    \begin{enumerate}
+        \item JavaScript
+            \begin{enumerate}
+                \item Classes
+                \item Functions as first class citizens
+                \item Arrow functions (i.e. \mintinline{javascript}{(arg1, arg2) => { statements }})
+                \item \mintinline{javascript}{module.exports} and \mintinline{javascript}{require} (and their ES6 equivalents (but not really) \mintinline{javascript}{export} and \mintinline{javascript}{import})
+                \item \mintinline{javascript}{async}/\mintinline{javascript}{await} and Promises
+            \end{enumerate}
+        \item Node
+            \begin{enumerate}
+                \item Basics
+                \item REPL
+                \item NPM
+                \item Express.js
+            \end{enumerate}
+    \end{enumerate}
+
+    End product: Build an exam countdown API using the NUSMods API.
+\end{frame}
+
+\begin{frame}[fragile]{Why does Node.js even exist?}
+    \begin{columns}
+        \begin{column}{0.3\textwidth}
+            \begin{center}
+                \textbf{Netscape Navigator}
+
+                Brought interactivity to web pages
+            \end{center}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \begin{center}
+                \textbf{Node.js}
+
+                JavaScript runtime for servers
+            \end{center}
+        \end{column}
+        \begin{column}{0.3\textwidth}
+            \begin{center}
+                \textbf{Electron}
+
+                Build desktop apps with a Node+browser hybrid
+            \end{center}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Node.js---Key Components}
+    \begin{enumerate}
+        \item Read-Eval-Print-Loop (REPL)
+        \item \mintinline{bash}{node} itself
+        \item Node Package Manager (NPM)
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Node REPL}
+    \begin{itemize}
+        \item Launch using \mintinline{bash}{node} in the terminal.
+        \item Type JavaScript code at the prompt.
+        \item Variables can be set and used throughout a REPL session.
+        \item Exit by pressing Ctrl+D
+    \end{itemize}
+    \begin{minted}{javascript}
+        > let name = "Chinese"
+        > name
+        // Output: name
+        > console.log("Is it because I'm", name)
+        // Output: Is it because I'm Chinese
+        > name = "Malay"
+        // Press the up arrow key to access your command history
+        > console.log("Is it because I'm", name)
+        // Output: Is it because I'm Malay
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Node Scripts}
+    Execute scripts by running \mintinline{bash}{node script.js}. Try running this in your terminal:
+    \begin{minted}{bash}
+        $ cd hackerschool-advanced-js-node/starter
+        $ node 1_basics.js
+    \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{Advanced JavaScript Part 1}
+    We'll cover some advanced features by running through the scripts in the starter folder.
+    \begin{enumerate}
+        \item \lstinline{1_basics.js}
+            \begin{enumerate}[(i)]
+                \item Nested functions
+                \item String template literals
+                \item Arrow functions
+            \end{enumerate}
+        \item \lstinline{2_functional.js}
+            \begin{enumerate}[(i)]
+                \item \mintinline{javascript}{map}, \mintinline{javascript}{reduce}, \mintinline{javascript}{filter}
+                \item Object/array destructuring
+                \item Object/array rest/spread operator
+            \end{enumerate}
+        \item \lstinline{3_classes.js}
+            \begin{enumerate}[(i)]
+                \item Classes
+            \end{enumerate}
+        \item \lstinline{4.*.js}
+            \begin{enumerate}[(i)]
+                \item \mintinline{javascript}{module.exports}, \mintinline{javascript}{require}
+            \end{enumerate}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[fragile]{Node Package Manager (NPM)}
+    \href{https://www.npmjs.com/}{NPM} is a central collection of published packages/libaries/frameworks/tools.
+
+    Run these lines in your terminal:
+    \begin{minted}{bash}
+        $ cd hackerschool-advanced-js-node/starter/server
+        $ ls # The folder should contain only server.js
+        $ npm init # and spam Enter to fill in the prompts. A package.json file should be created.
+        $ npm install --save express
+        $ ls # A node_modules folder should be created
+    \end{minted}
+
+    Per-project configuration file (\lstinline{package.json}) contains dependencies and other information. Per-project dependencies are stored in \lstinline{node_modules} folder.
+\end{frame}
+
+\begin{frame}[fragile]{Advanced JavaScript Part 2}
+    These files are in the starter/server directory.
+    \begin{enumerate}
+        \item \lstinline{1_express.js}
+            \begin{enumerate}[(i)]
+                \item Basic Express server
+                \item File server
+            \end{enumerate}
+        \item \lstinline{2_asyncawait.js}
+            \begin{enumerate}[(i)]
+                \item async/await
+                \item Promises
+            \end{enumerate}
+        \item
+            \lstinline{3_daystoexamserver.js}
+
+            Your turn: make an exam countdown using the NUSMods~API
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Possible Extensions}
+    \begin{enumerate}
+        \item Add an endpoint that counts down the number of days to all exams.
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        \vspace{0.1\textheight}
+
+        {\Huge Thank you!}
+
+        {\Large Feedback please!}
+
+        \qrcode[height=0.5\textheight]{http://bit.ly/hs-ajs}
+
+        \href{http://bit.ly/hs-ajs}{http://bit.ly/hs-ajs}
+    \end{center}
+\end{frame}
+
+\end{document}
